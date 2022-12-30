@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scalable=no">
+    <title>מה'מילה</title>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script defer src="index.js"></script>
+    <link rel="icon" href="alpha-wordle-icon-new-square320-v3.png">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+</head>
+
+<body>
+
+    <div class="settings-box">
+        <button class="close-settings"><i class="bi bi-x-lg"></i></button>
+        <div class="settings-text">כאן אתה יכול לקבוע מילה שאחרים יוכלו לנחש</div>
+        <div class="settings-start">
+            <button class="set-word">קבע מילה</button>
+            <button class="gess-word">נחש מילה</button>
+        </div>
+        <button class="close-set"><i class="bi bi-arrow-left"></i></button>
+        <div class="settings-set">
+            <div class="set-text">כתוב מילה בת 4 אותיות</div>
+            <input class="name-input" type="text" placeholder="כתוב את שמך">
+            <input class="word-input" type="text" placeholder="כתוב מילה לניחוש">
+            <button class="submit-word">התחלה</button>
+        </div>
+        <div class="settings-get">
+            <button class="close-get"><i class="bi bi-arrow-right"></i></button>
+            <div class="get-text">נחש את המילה של</div>
+        </div>
+    </div>
+
+    <div class="help">
+        <button class="close-help"><i class="bi bi-x-lg"></i></button>
+        <button class="green-text">אות נככונה במקום הנכון</button>
+        <button class="blue-text">אות נכונה במקום הלא נכון</button>
+        <button class="red-text">אות לא נכונה</button>
+    </div>
+
+    <div class="conform">
+        <div class="conform-text">אתה רוצה לנחש את המילה של איתמר</div>
+        <button class="no-btn">לא</button>
+        <button class="yes-btn">כן</button>
+    </div>
+
+    <div class="replay-box">
+        <button class="replay-btn"><i class="bi bi-arrow-clockwise"></i></button>
+        <button class="close-replay"><i class="bi bi-x-lg"></i></button>
+        <div class="replay-text">שחק שוב</div>
+        <div class="replay-text-two"></div>
+
+    </div>
+    <div class="msg-box">
+        <div class="msg-text">שחק שוב</div>
+        <button class="msg-ok">ok</button>
+    </div>
+
+
+    <div class="all">
+        <button class="wins">יש לך 0 נקודות</button>
+
+        <button class="open-help">מקרא</button>
+
+        <button class="open-settings"><i class="bi bi-person-fill"></i></button>
+
+        <div class="keyboard">
+
+            <div class="line-one">
+                <div id="k" class="k">ק</div>
+                <div id="r" class="r">ר</div>
+                <div id="a" class="a">א</div>
+                <div id="t2" class="t2">ט</div>
+                <div id="v" class="v">ו</div>
+                <div id="n2" class="n2">ן</div>
+                <div id="m2" class="m2">ם</div>
+                <div id="p2" class="p2">פ</div>
+                <div class="remove"><i class="bi bi-backspace"></i></div>
+            </div>
+
+
+            <div class="line-two">
+                <div id="sh" class="sh">ש</div>
+                <div id="d" class="d">ד</div>
+                <div id="g" class="g">ג</div>
+                <div id="ch123" class="ch123">כ</div>
+                <div id="ah" class="ah">ע</div>
+                <div id="i" class="i">י</div>
+                <div id="ch12" class="ch12">ח</div>
+                <div id="l" class="l">ל</div>
+                <div id="ch2" class="ch2">ך</div>
+                <div id="f" class="f">ף</div>
+            </div>
+
+
+            <div class="line-three">
+                <div id="z" class="z">ז</div>
+                <div id="s" class="s">ס</div>
+                <div id="b" class="b">ב</div>
+                <div id="a2" class="a2">ה</div>
+                <div id="n" class="n">נ</div>
+                <div id="m" class="m">מ</div>
+                <div id="ts" class="ts">צ</div>
+                <div id="t" class="t">ת</div>
+                <div id="ts2" class="ts2">ץ</div>
+                <div class="enter"><i class="bi bi-arrow-return-left"></i></div>
+            </div>
+
+
+        </div>
+
+
+
+        <div class="squares">
+
+            <div class="square-line-one">
+                <div class="square-four-one"></div>
+                <div class="square-three-one"></div>
+                <div class="square-two-one"></div>
+                <div class="square-one-one"></div>
+            </div>
+
+
+            <div class="square-line-two">
+                <div class="square-four-two"></div>
+                <div class="square-three-two"></div>
+                <div class="square-two-two"></div>
+                <div class="square-one-two"></div>
+            </div>
+
+            <div class="square-line-three">
+                <div class="square-four-three"></div>
+                <div class="square-three-three"></div>
+                <div class="square-two-three"></div>
+                <div class="square-one-three"></div>
+            </div>
+
+            <div class="square-line-four">
+                <div class="square-four-four"></div>
+                <div class="square-three-four"></div>
+                <div class="square-two-four"></div>
+                <div class="square-one-four"></div>
+            </div>
+
+            <div class="square-line-five">
+                <div class="square-four-five"></div>
+                <div class="square-three-five"></div>
+                <div class="square-two-five"></div>
+                <div class="square-one-five"></div>
+            </div>
+
+
+
+        </div>
+    </div>
+
+    <style>
+        .conform {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background-color: rgb(255, 255, 255);
+            z-index: 2;
+            height: 20%;
+            width: 300px;
+            border-radius: 20px;
+            box-shadow: 0 0 100vh 100vh rgb(0, 0, 0, 0.6);
+            transition: 0..4s;
+            padding: 10px;
+            transition: 0.4s;
+            display: none;
+            overflow: hidden;
+        }
+        
+        .msg-box {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background-color: rgb(255, 255, 255);
+            z-index: 2;
+            height: 20%;
+            width: 300px;
+            border-radius: 20px;
+            box-shadow: 0 0 100vh 100vh rgb(0, 0, 0, 0.6);
+            transition: 0..4s;
+            padding: 10px;
+            transition: 0.4s;
+            display: none;
+            overflow: hidden;
+        }
+        
+        .conform-text,
+        .msg-text {
+            text-align: center;
+            font-size: 30px;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+        }
+        
+        .msg-ok {
+            border-radius: 10px;
+            border: none;
+            background-color: rgb(168, 203, 255);
+            font-size: 40px;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            text-align: center;
+            position: relative;
+            left: 50%;
+            top: 20%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .yes-btn,
+        .no-btn {
+            border: 2px solid rgb(107, 248, 110);
+            background-color: rgb(107, 248, 110);
+            border-radius: 6px;
+            font-size: 30px;
+            width: 30%;
+            margin-left: 12%;
+            margin-top: 2%;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .no-btn {
+            border: 2px solid rgb(252, 80, 80);
+            background-color: rgb(252, 80, 80);
+        }
+        
+        .user {
+            background-color: rgba(206, 191, 191, 0.4);
+            font-size: 30px;
+            text-align: center;
+            margin: 6%;
+            border-radius: 10px;
+            cursor: pointer;
+            padding: 2%;
+            border: 2px solid black;
+        }
+        
+        .help {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background-color: rgb(255, 255, 255);
+            z-index: 2;
+            height: 50%;
+            width: 300px;
+            border-radius: 20px;
+            box-shadow: 0 0 100vh 100vh rgb(0, 0, 0, 0.6);
+            transition: 0..4s;
+            padding: 10px;
+            transition: 0.4s;
+            display: none;
+        }
+        
+        .settings-start {
+            position: absolute;
+            left: 50%;
+            top: 70%;
+            transform: translate(-50%, -50%);
+            transition: 0.3s;
+        }
+        
+        .settings-set {
+            position: absolute;
+            top: 50%;
+            left: 190%;
+            transform: translate(-50%, -50%);
+            transition: 0.3s;
+        }
+        
+        .settings-get {
+            position: absolute;
+            top: 50%;
+            left: -90%;
+            transform: translate(-50%, -50%);
+            transition: 0.3s;
+            width: 100%;
+        }
+        
+        .submit-word {
+            position: relative;
+            left: 50%;
+            transform: translate(-50%);
+            margin-top: 10%;
+            font-size: 46px;
+            border: none;
+            border-radius: 10px;
+            background-color: aquamarine;
+            cursor: pointer;
+        }
+        
+        .name-input,
+        .word-input {
+            text-align: center;
+            margin: 10px;
+            font-size: 24px;
+            outline: none;
+            border-radius: 10px;
+            border: 2px solid #aaa;
+        }
+        
+        .name-input {
+            margin-top: 20%;
+        }
+        
+        .settings-text {
+            text-align: center;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 30px;
+            margin-left: 0%;
+            transition: 0.3s;
+        }
+        
+        .set-text {
+            text-align: center;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 30px;
+            transition: 0.3s;
+            margin-top: 20%;
+        }
+        
+        .get-text {
+            text-align: center;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 30px;
+            transition: 0.3s;
+            margin-top: 0%;
+        }
+        
+        .open-settings {
+            font-size: 40px;
+            border-radius: 50%;
+            border: none;
+            background-color: aquamarine;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-left: 10px;
+            margin-top: 10px;
+            user-select: none;
+        }
+        
+        .settings-box {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background-color: rgb(255, 255, 255);
+            z-index: 2;
+            height: 50%;
+            width: 300px;
+            border-radius: 20px;
+            box-shadow: 0 0 100vh 100vh rgb(0, 0, 0, 0.6);
+            transition: 0..4s;
+            padding: 10px;
+            transition: 0.4s;
+            display: none;
+            overflow: hidden;
+        }
+        
+        .replay-box {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background-color: rgb(255, 255, 255);
+            z-index: 2;
+            height: 50%;
+            width: 300px;
+            border-radius: 20px;
+            box-shadow: 0 0 100vh 100vh rgb(0, 0, 0, 0.6);
+            transition: 0..4s;
+            padding: 10px;
+            transition: 0.4s;
+            display: none;
+        }
+        
+        .replay-text {
+            font-size: 40px;
+            text-align: center;
+            position: relative;
+            top: 70%;
+        }
+        
+        .replay-text-two {
+            font-size: 40px;
+            text-align: center;
+            position: relative;
+            top: -5%;
+        }
+        
+        .replay-btn {
+            position: absolute;
+            left: 50%;
+            top: 60%;
+            transform: translate(-50%, -50%);
+            font-size: 70px;
+            border: none;
+            border-radius: 20px;
+            background-color: aquamarine;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .replay-btn:hover {
+            transform: translate(-50%, -50%) scale(1.5);
+        }
+        
+        .wins {
+            position: absolute;
+            left: 86%;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            font-size: 30px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 10px;
+            background-color: rgb(255, 255, 255, 0.4);
+            transition: 0.3s;
+            margin-right: 20px;
+        }
+        
+        .open-help {
+            font-size: 40px;
+            border-radius: 10px;
+            border: none;
+            background-color: aquamarine;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-left: 10px;
+            margin-top: 10px;
+        }
+        
+        .close-help,
+        .close-replay,
+        .close-settings {
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+        }
+        
+        .close-set {
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            position: relative;
+            top: -16%;
+            margin-left: 190%;
+            z-index: 1;
+        }
+        
+        .close-get {
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-size: 24px;
+            position: relative;
+            top: 16%;
+            left: 1%;
+            z-index: 1;
+        }
+        
+        .green-text {
+            font-size: 30px;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            height: 80px;
+            width: 250px;
+            background-color: aquamarine;
+            border-radius: 10px;
+            margin: 10%;
+            margin-top: 0px;
+            margin-inline: auto;
+            text-align: center;
+            border: none;
+            margin-left: 50%;
+            transform: translate(-50%);
+        }
+        
+        .gess-word {
+            font-size: 30px;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            height: 80px;
+            width: 250px;
+            background-color: aquamarine;
+            border-radius: 10px;
+            margin: 10%;
+            margin-top: 0px;
+            margin-inline: auto;
+            text-align: center;
+            border: none;
+            margin-left: 50%;
+            position: relative;
+            top: 10%;
+            transform: translate(-50%);
+            cursor: pointer;
+        }
+        
+        .set-word {
+            font-size: 30px;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            height: 80px;
+            width: 250px;
+            background-color: rgb(142, 157, 253);
+            border-radius: 10px;
+            margin: 10%;
+            margin-top: 0px;
+            margin-inline: auto;
+            text-align: center;
+            border: none;
+            margin-left: 50%;
+            position: relative;
+            top: 10%;
+            transform: translate(-50%);
+            cursor: pointer;
+        }
+        
+        .blue-text {
+            font-size: 30px;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            height: 80px;
+            width: 250px;
+            background-color: rgb(142, 157, 253);
+            border-radius: 10px;
+            margin: 10%;
+            margin-top: 0px;
+            margin-inline: auto;
+            text-align: center;
+            border: none;
+            margin-left: 50%;
+            transform: translate(-50%);
+        }
+        
+        .red-text {
+            font-size: 30px;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            height: 80px;
+            width: 250px;
+            background-color: rgb(245, 169, 112);
+            border-radius: 10px;
+            margin: 10%;
+            margin-top: 0px;
+            margin-inline: auto;
+            text-align: center;
+            border: none;
+            margin-left: 50%;
+            transform: translate(-50%);
+        }
+        
+        .square-one-one,
+        .square-two-one,
+        .square-three-one,
+        .square-four-one,
+        .square-one-two,
+        .square-two-two,
+        .square-three-two,
+        .square-four-two,
+        .square-one-three,
+        .square-two-three,
+        .square-three-three,
+        .square-four-three,
+        .square-one-four,
+        .square-two-four,
+        .square-three-four,
+        .square-four-four,
+        .square-one-five,
+        .square-two-five,
+        .square-three-five,
+        .square-four-five {
+            height: 50px;
+            width: 50px;
+            border: 4px solid rgb(7, 7, 7, 0.4);
+            margin-right: 10px;
+            margin-left: 10px;
+            margin-top: 10px;
+            border-radius: 6px;
+            font-size: 50px;
+            text-align: center;
+            padding: 10px;
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            background-color: rgb(255, 255, 255, 0.4);
+            transition: 0.2s;
+        }
+        
+        .squares {
+            position: absolute;
+            left: 50%;
+            top: 30%;
+            transform: translate(-50%, -50%) scale(0.9);
+            margin-inline: auto;
+        }
+        
+        .square-line-one,
+        .square-line-two,
+        .square-line-three,
+        .square-line-four,
+        .square-line-five {
+            display: flex;
+        }
+        
+        .square-line-one,
+        .square-line-two,
+        .square-line-three,
+        .square-line-four,
+        .square-line-five {
+            animation: win 1s infinite;
+            animation-play-state: paused;
+        }
+        
+        @keyframes win {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        body {
+            background-color: rgb(169, 218, 255);
+            overflow: hidden;
+        }
+        
+        .keyboard {
+            position: absolute;
+            left: 50%;
+            top: 80%;
+            transform: translate(-50%, -50%);
+            font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+            user-select: none;
+            border-radius: 20px;
+            margin-inline: auto;
+            width: 70%;
+        }
+        
+        .line-one,
+        .line-two,
+        .line-three {
+            display: flex;
+            position: relative;
+            left: 50%;
+            transform: translate(-36%);
+        }
+        
+        .line-one {
+            margin-left: 3%;
+        }
+        
+        .p2,
+        .m2,
+        .n2,
+        .v,
+        .t2,
+        .a,
+        .r,
+        .k,
+        .f,
+        .ch2,
+        .l,
+        .ch12,
+        .i,
+        .ah,
+        .ch123,
+        .g,
+        .d,
+        .sh,
+        .ts2,
+        .t,
+        .ts,
+        .m,
+        .n,
+        .a2,
+        .b,
+        .s,
+        .z,
+        .remove,
+        .enter {
+            font-size: 300%;
+            margin: 1%;
+            border: 2px solid #aaa;
+            padding-left: 2%;
+            padding-right: 2%;
+            padding-bottom: 1%;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 300%;
+            margin: 0.7%;
+            border: 1px solid #aaa;
+            padding-left: 0.5%;
+            padding-right: 0.5%;
+            padding-bottom: 1%;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s;
+            background-color: rgb(255, 255, 255, 0.4);
+            width: 50px;
+            text-align: center;
+        }
+        
+        @media all and (max-width: 600px) {
+            .open-settings {
+                padding-top: 0.5%;
+                padding-bottom: 0.5%;
+                width: 44px;
+            }
+            .p2,
+            .m2,
+            .n2,
+            .v,
+            .t2,
+            .a,
+            .r,
+            .k,
+            .f,
+            .ch2,
+            .l,
+            .ch12,
+            .i,
+            .ah,
+            .ch123,
+            .g,
+            .d,
+            .sh,
+            .ts2,
+            .t,
+            .ts,
+            .m,
+            .n,
+            .a2,
+            .b,
+            .s,
+            .z,
+            .remove,
+            .enter {
+                font-size: 300%;
+                margin: 0.7%;
+                border: none;
+                padding-left: 0.5%;
+                padding-right: 0.5%;
+                padding-bottom: 1%;
+                border-radius: 10px;
+                cursor: pointer;
+                transition: 0.3s;
+                background-color: rgb(255, 255, 255, 0.4);
+                width: 50px;
+            }
+            .keyboard {
+                width: 100%;
+                top: 86%;
+                background-color: transparent;
+            }
+            .line-one,
+            .line-two,
+            .line-three {
+                display: flex;
+                position: relative;
+                left: 50%;
+                transform: translate(-50%);
+            }
+        }
+        
+        @media all and (max-width: 1300px) and (min-width: 601px) {
+            .line-one,
+            .line-two,
+            .line-three {
+                transform: translate(-48%);
+            }
+        }
+        
+        @media all and (min-width: 800px) {
+            .p2:hover,
+            .m2:hover,
+            .n2:hover,
+            .v:hover,
+            .t2:hover,
+            .a:hover,
+            .r:hover,
+            .k:hover,
+            .f:hover,
+            .ch2:hover,
+            .l:hover,
+            .ch123:hover,
+            .i:hover,
+            .ah:hover,
+            .ch12:hover,
+            .g:hover,
+            .d:hover,
+            .sh:hover,
+            .ts2:hover,
+            .t:hover,
+            .ts:hover,
+            .m:hover,
+            .n:hover,
+            .a2:hover,
+            .b:hover,
+            .s:hover,
+            .z:hover,
+            .remove:hover,
+            .enter:hover {
+                background-color: rgb(250, 206, 153);
+            }
+        }
+        
+        @media all and (max-width: 577px) {
+            .settings-box {
+                width: 80%;
+            }
+            .open-help {
+                position: absolute;
+                left: 10%;
+                top: 60%;
+                z-index: 1;
+                height: 60px;
+            }
+            .msg-box {
+                width: 80%;
+            }
+            .open-settings {
+                font-size: 30px;
+                z-index: 1;
+                position: relative;
+                left: -4%;
+            }
+            .wins {
+                left: 60%;
+                top: 60%;
+                z-index: 1;
+                font-size: 30px;
+                text-align: center;
+                height: 60px;
+                font-size: 22px;
+            }
+        }
+        
+        @media all and (max-width: 464px) {
+            .wins {
+                left: 46%;
+            }
+        }
+        
+        @media all and (max-height: 635px) {
+            .square-one-one,
+            .square-two-one,
+            .square-three-one,
+            .square-four-one,
+            .square-one-two,
+            .square-two-two,
+            .square-three-two,
+            .square-four-two,
+            .square-one-three,
+            .square-two-three,
+            .square-three-three,
+            .square-four-three,
+            .square-one-four,
+            .square-two-four,
+            .square-three-four,
+            .square-four-four,
+            .square-one-five,
+            .square-two-five,
+            .square-three-five,
+            .square-four-five {
+                height: 40px;
+                width: 40px;
+                border: 4px solid rgb(7, 7, 7, 0.4);
+                margin-right: 1%;
+                margin-left: 1%;
+                margin-top: 0.5%;
+                border-radius: 6px;
+                font-size: 50px;
+                text-align: center;
+                padding: 10px;
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                background-color: rgb(255, 255, 255, 0.4);
+                transition: 0.4s;
+            }
+            .wins {
+                top: 58%;
+                height: 40px;
+                font-size: 20px;
+            }
+            .open-help {
+                top: 58%;
+                font-size: 30px;
+                height: 40px;
+            }
+            .replay-text {
+                font-size: 30px;
+            }
+            .replay-text-two {
+                font-size: 30px;
+            }
+        }
+    </style>
+</body>
+
+</html>
